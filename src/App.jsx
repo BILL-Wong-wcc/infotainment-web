@@ -113,7 +113,7 @@ function Dashboard() {
   const dashboardHeaderRef = useRef(null);
 
   useEffect(() => {
-    const mobileQuery = window.matchMedia('(hover: none) and (pointer: coarse)');
+    const mobileQuery = window.matchMedia('(max-width: 1024px) and (hover: none) and (pointer: coarse)');
 
     const updateLayout = () => {
       const isMobile = mobileQuery.matches;
