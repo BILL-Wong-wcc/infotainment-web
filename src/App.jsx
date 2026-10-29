@@ -1,6 +1,20 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, Route, Routes } from 'react-router-dom';
 import './App.css';
 import BlankPage from './pages/BlankPage';
+import tvMoviesIcon from './pages/icon/tv-movies.svg';
+import webIcon from './pages/icon/web-browser.svg';
+import videoCallIcon from './pages/icon/video-call.svg';
+import orderFoodIcon from './pages/icon/order-food.svg';
+import myScheduleIcon from './pages/icon/my-schedule.svg';
+import myHealthIcon from './pages/icon/my-health.svg';
+import billingEnquiryIcon from './pages/icon/billing-enquiry.svg';
+import hospitalInfoIcon from './pages/icon/hospital-info.svg';
+import learnIcon from './pages/icon/learn.svg';
+import myFeedbackIcon from './pages/icon/my-feedback.svg';
+import mirroringIcon from './pages/icon/mirroring.svg';
+import bluetoothIcon from './pages/icon/bluetooth.svg';
+import hkbhLogo from './pages/resource/hkbh_logo.png';
 
 const apps = [
   {
@@ -8,82 +22,173 @@ const apps = [
     subtitle: 'Watch shows',
     path: '/tv-movies',
     colorClass: 'tile-blue',
+    icon: tvMoviesIcon,
+  },
+  {
+    name: 'Web Browser',
+    subtitle: 'Search the internet',
+    path: '/web-browser',
+    colorClass: 'tile-orange',
+    icon: webIcon,
+  },
+  {
+    name: 'Video Call',
+    subtitle: 'Call Family',
+    path: '/video-call',
+    colorClass: 'tile-purple',
+    icon: videoCallIcon,
   },
   {
     name: 'Order Food',
     subtitle: 'Lunch at 12:30 PM',
     path: '/order-food',
-    colorClass: 'tile-orange',
-  },
-  {
-    name: 'Video Call',
-    subtitle: 'Call family',
-    path: '/video-call',
-    colorClass: 'tile-purple',
-  },
-  {
-    name: 'My Health',
-    subtitle: 'Records & Meds',
-    path: '/my-health',
     colorClass: 'tile-green',
-  },
-  {
-    name: 'Room Controls',
-    subtitle: 'Lights, Temp, Blinds',
-    path: '/room-controls',
-    colorClass: 'tile-indigo',
+    icon: orderFoodIcon,
   },
   {
     name: 'My Schedule',
     subtitle: '2 activities today',
     path: '/my-schedule',
     colorClass: 'tile-teal',
+    icon: myScheduleIcon,
   },
   {
-    name: 'Learn',
-    subtitle: 'Health information',
-    path: '/learn',
-    colorClass: 'tile-pink',
-  },
-  {
-    name: 'Hospital Info',
-    subtitle: 'Services & Billing',
-    path: '/hospital-info',
-    colorClass: 'tile-slate',
+    name: 'My Health',
+    subtitle: 'Records & Meds',
+    path: '/my-health',
+    colorClass: 'tile-lime',
+    icon: myHealthIcon,
   },
   {
     name: 'Billing Enquiry',
     subtitle: 'View charges & pay',
     path: '/billing-enquiry',
     colorClass: 'tile-amber',
+    icon: billingEnquiryIcon,
   },
   {
-    name: 'Web Browser',
-    subtitle: 'Search the internet',
-    path: '/web-browser',
+    name: 'Hospital Info',
+    subtitle: 'Services & Billing',
+    path: '/hospital-info',
     colorClass: 'tile-cyan',
+    icon: hospitalInfoIcon,
+  },
+  {
+    name: 'Learn',
+    subtitle: 'Health information',
+    path: '/learn',
+    colorClass: 'tile-pink',
+    icon: learnIcon,
   },
   {
     name: 'My Feedback',
     subtitle: 'Share your thoughts',
     path: '/my-feedback',
     colorClass: 'tile-magenta',
+    icon: myFeedbackIcon,
+  },
+  {
+    name: 'Mirroring',
+    subtitle: 'Search your Internet',
+    path: '/mirroring',
+    colorClass: 'tile-slate',
+    icon: mirroringIcon,
+  },
+  {
+    name: 'Bluetooth',
+    subtitle: 'Pair devices',
+    path: '/bluetooth',
+    colorClass: 'tile-indigo',
+    icon: bluetoothIcon,
   },
 ];
 
 function Dashboard() {
   const currentTime = '5:36 PM';
   const currentDate = 'Oct 24, 2023';
+  const columnsPerPage = 5;
+  const [isMobilePaged, setIsMobilePaged] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const appShellRef = useRef(null);
+  const dashboardHeaderRef = useRef(null);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(hover: none) and (pointer: coarse)');
+
+    const updateLayout = () => {
+      const isMobile = mobileQuery.matches;
+      setIsMobilePaged(isMobile);
+
+      if (!isMobile) {
+        setRowsPerPage(3);
+        return;
+      }
+
+      const shell = appShellRef.current;
+      if (!shell) {
+        return;
+      }
+
+      const styles = window.getComputedStyle(shell);
+      const shellPaddingTop = Number.parseFloat(styles.paddingTop) || 0;
+      const shellPaddingBottom = Number.parseFloat(styles.paddingBottom) || 0;
+      const shellPaddingLeft = Number.parseFloat(styles.paddingLeft) || 0;
+      const shellPaddingRight = Number.parseFloat(styles.paddingRight) || 0;
+      const appAreaHeight = shell.clientHeight - shellPaddingTop - shellPaddingBottom;
+      const appAreaWidth = shell.clientWidth - shellPaddingLeft - shellPaddingRight;
+
+      const headerHeight = dashboardHeaderRef.current?.offsetHeight || 0;
+      const gridGap = 16;
+      const tileWidth = Math.max(0, (appAreaWidth - gridGap * (columnsPerPage - 1)) / columnsPerPage);
+      const tileHeight = tileWidth * (3.5 / 4.5);
+      const availableHeight = Math.max(0, appAreaHeight - headerHeight - 8);
+      const computedRows = Math.floor((availableHeight + gridGap) / (tileHeight + gridGap));
+      const nextRows = Math.max(1, Math.min(3, computedRows));
+
+      setRowsPerPage(nextRows);
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+
+    const onMobileChange = () => updateLayout();
+    if (typeof mobileQuery.addEventListener === 'function') {
+      mobileQuery.addEventListener('change', onMobileChange);
+    } else {
+      mobileQuery.addListener(onMobileChange);
+    }
+
+    return () => {
+      window.removeEventListener('resize', updateLayout);
+      if (typeof mobileQuery.removeEventListener === 'function') {
+        mobileQuery.removeEventListener('change', onMobileChange);
+      } else {
+        mobileQuery.removeListener(onMobileChange);
+      }
+    };
+  }, []);
+
+  const itemsPerPage = rowsPerPage * columnsPerPage;
+  const pagedApps = useMemo(() => {
+    if (!isMobilePaged) {
+      return [apps];
+    }
+
+    const pages = [];
+    for (let index = 0; index < apps.length; index += itemsPerPage) {
+      pages.push(apps.slice(index, index + itemsPerPage));
+    }
+
+    return pages;
+  }, [isMobilePaged, itemsPerPage]);
 
   return (
     <div className="page-wrap">
       <header className="topbar" role="banner">
         <div className="topbar-group topbar-left">
-          <article className="info-card hospital-card">
-            <div className="avatar avatar-mint" aria-hidden="true" />
+          <article className="hospital-card">
             <div>
-              <p className="info-title">City General</p>
-              <p className="info-subtitle">Room 402</p>
+              <img src={hkbhLogo} alt="Hospital Logo" className="hospital-logo" />
             </div>
           </article>
 
@@ -122,27 +227,39 @@ function Dashboard() {
             <p className="clock-time">{currentTime}</p>
             <p className="clock-date">{currentDate}</p>
           </div>
-          <button type="button" className="help-button">
-            CALL HELP
-          </button>
         </div>
       </header>
 
-      <main className="app-shell">
+      <main className="app-shell" ref={appShellRef}>
         <section className="dashboard" aria-labelledby="services-heading">
-          <header className="dashboard-header">
-            <h1 id="services-heading">What would you like to do?</h1>
+          <header className="dashboard-header" ref={dashboardHeaderRef}>
             <p>Tap any tile below to access services.</p>
           </header>
 
-          <div className="tile-grid">
-            {apps.map((app) => (
-              <Link key={app.name} to={app.path} className={`app-tile ${app.colorClass}`}>
-                <span className="app-icon" aria-hidden="true" />
-                <span className="app-label">{app.name}</span>
-                <span className="app-subtitle">{app.subtitle}</span>
-              </Link>
-            ))}
+          <div className={`tile-grid${isMobilePaged ? ' tile-grid-paged' : ''}`}>
+            {isMobilePaged
+              ? pagedApps.map((page, pageIndex) => (
+                  <div className="tile-page" key={`page-${pageIndex}`} aria-label={`App page ${pageIndex + 1}`}>
+                    {page.map((app) => (
+                      <Link key={app.name} to={app.path} className={`app-tile ${app.colorClass}`}>
+                        <span className="app-icon" aria-hidden="true">
+                          {app.icon ? <img src={app.icon} alt="" className="app-icon-image" /> : null}
+                        </span>
+                        <span className="app-label">{app.name}</span>
+                        <span className="app-subtitle">{app.subtitle}</span>
+                      </Link>
+                    ))}
+                  </div>
+                ))
+              : apps.map((app) => (
+                  <Link key={app.name} to={app.path} className={`app-tile ${app.colorClass}`}>
+                    <span className="app-icon" aria-hidden="true">
+                      {app.icon ? <img src={app.icon} alt="" className="app-icon-image" /> : null}
+                    </span>
+                    <span className="app-label">{app.name}</span>
+                    <span className="app-subtitle">{app.subtitle}</span>
+                  </Link>
+                ))}
           </div>
         </section>
       </main>
@@ -152,19 +269,29 @@ function Dashboard() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Dashboard />} />
-      <Route path="/tv-movies" element={<BlankPage />} />
-      <Route path="/order-food" element={<BlankPage />} />
-      <Route path="/video-call" element={<BlankPage />} />
-      <Route path="/my-health" element={<BlankPage />} />
-      <Route path="/room-controls" element={<BlankPage />} />
-      <Route path="/my-schedule" element={<BlankPage />} />
-      <Route path="/learn" element={<BlankPage />} />
-      <Route path="/hospital-info" element={<BlankPage />} />
-      <Route path="/billing-enquiry" element={<BlankPage />} />
-      <Route path="/web-browser" element={<BlankPage />} />
-      <Route path="/my-feedback" element={<BlankPage />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/tv-movies" element={<BlankPage />} />
+        <Route path="/order-food" element={<BlankPage />} />
+        <Route path="/video-call" element={<BlankPage />} />
+        <Route path="/my-health" element={<BlankPage />} />
+        <Route path="/room-controls" element={<BlankPage />} />
+        <Route path="/my-schedule" element={<BlankPage />} />
+        <Route path="/learn" element={<BlankPage />} />
+        <Route path="/hospital-info" element={<BlankPage />} />
+        <Route path="/billing-enquiry" element={<BlankPage />} />
+        <Route path="/web-browser" element={<BlankPage />} />
+        <Route path="/my-feedback" element={<BlankPage />} />
+        <Route path="/mirroring" element={<BlankPage />} />
+        <Route path="/bluetooth" element={<BlankPage />} />
+      </Routes>
+
+      <div className="rotate-overlay" role="dialog" aria-modal="true" aria-live="polite">
+        <div className="rotate-card">
+          <p>please rotate your phone</p>
+        </div>
+      </div>
+    </>
   );
 }
