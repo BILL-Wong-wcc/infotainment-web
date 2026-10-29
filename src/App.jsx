@@ -289,7 +289,7 @@ export default function App() {
 
       <div className="rotate-overlay" role="dialog" aria-modal="true" aria-live="polite">
         <div className="rotate-card">
-          <p>please rotate your phone</p>
+          <p>Please rotate your phone and then refresh the page</p>
         </div>
       </div>
     </>
