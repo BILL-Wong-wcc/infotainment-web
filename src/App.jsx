@@ -1,7 +1,18 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
 import './App.css';
-import BlankPage from './pages/BlankPage';
+import DefaultAppView from './pages/apps/DefaultAppView';
+import TvMoviesApp from './pages/apps/TvMoviesApp';
+import WebBrowserApp from './pages/apps/WebBrowserApp';
+import VideoCallApp from './pages/apps/VideoCallApp';
+import OrderFoodApp from './pages/apps/OrderFoodApp';
+import MyScheduleApp from './pages/apps/MyScheduleApp';
+import MyHealthApp from './pages/apps/MyHealthApp';
+import BillingEnquiryApp from './pages/apps/BillingEnquiryApp';
+import HospitalInfoApp from './pages/apps/HospitalInfoApp';
+import LearnApp from './pages/apps/LearnApp';
+import MyFeedbackApp from './pages/apps/MyFeedbackApp';
+import MirroringApp from './pages/apps/MirroringApp';
+import BluetoothApp from './pages/apps/BluetoothApp';
 import tvMoviesIcon from './pages/icon/tv-movies.svg';
 import webIcon from './pages/icon/web-browser.svg';
 import videoCallIcon from './pages/icon/video-call.svg';
@@ -16,94 +27,137 @@ import mirroringIcon from './pages/icon/mirroring.svg';
 import bluetoothIcon from './pages/icon/bluetooth.svg';
 import hkbhLogo from './pages/resource/hkbh_logo.png';
 
+const tvMoviesApps = [
+  { name: 'TVB', subtitle: 'Live & catch-up', shortLabel: 'TVB', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'tvb' },
+  { name: 'Hoy TV', subtitle: 'Shows & movies', shortLabel: 'HOY', colorClass: 'tile-cyan', dialogSize: 'medium', contentKey: 'hoyTV' },
+  { name: 'ViuTV', subtitle: 'Series & news', shortLabel: 'Viu', colorClass: 'tile-pink', dialogSize: 'medium', contentKey: 'viutv' },
+  { name: 'Netflix', subtitle: 'Premium streaming', shortLabel: 'N', colorClass: 'tile-red', dialogSize: 'large', contentKey: 'netflix' },
+  { name: 'Disney+', subtitle: 'Family favorites', shortLabel: 'D+', colorClass: 'tile-indigo', dialogSize: 'large', contentKey: 'disneyPlus' },
+  { name: 'HBO', subtitle: 'Award-winning', shortLabel: 'HBO', colorClass: 'tile-purple', dialogSize: 'medium', contentKey: 'hbo' },
+];
+
 const apps = [
   {
     name: 'TV & Movies',
     subtitle: 'Watch shows',
-    path: '/tv-movies',
     colorClass: 'tile-blue',
     icon: tvMoviesIcon,
+    dialogSize: 'wide',
+    contentKey: 'tvMovies',
+    children: tvMoviesApps,
   },
   {
     name: 'Web Browser',
     subtitle: 'Search the internet',
-    path: '/web-browser',
     colorClass: 'tile-orange',
     icon: webIcon,
+    dialogSize: 'large',
+    contentKey: 'webBrowser',
   },
   {
     name: 'Video Call',
     subtitle: 'Call Family',
-    path: '/video-call',
     colorClass: 'tile-purple',
     icon: videoCallIcon,
+    dialogSize: 'medium',
+    contentKey: 'videoCall',
   },
   {
     name: 'Order Food',
     subtitle: 'Lunch at 12:30 PM',
-    path: '/order-food',
     colorClass: 'tile-green',
     icon: orderFoodIcon,
+    dialogSize: 'small',
+    contentKey: 'orderFood',
   },
   {
     name: 'My Schedule',
     subtitle: '2 activities today',
-    path: '/my-schedule',
     colorClass: 'tile-teal',
     icon: myScheduleIcon,
+    dialogSize: 'small',
+    contentKey: 'mySchedule',
   },
   {
     name: 'My Health',
     subtitle: 'Records & Meds',
-    path: '/my-health',
     colorClass: 'tile-lime',
     icon: myHealthIcon,
+    dialogSize: 'medium',
+    contentKey: 'myHealth',
   },
   {
     name: 'Billing Enquiry',
     subtitle: 'View charges & pay',
-    path: '/billing-enquiry',
     colorClass: 'tile-amber',
     icon: billingEnquiryIcon,
+    dialogSize: 'medium',
+    contentKey: 'billingEnquiry',
   },
   {
     name: 'Hospital Info',
     subtitle: 'Services & Billing',
-    path: '/hospital-info',
     colorClass: 'tile-cyan',
     icon: hospitalInfoIcon,
+    dialogSize: 'small',
+    contentKey: 'hospitalInfo',
   },
   {
     name: 'Learn',
     subtitle: 'Health information',
-    path: '/learn',
     colorClass: 'tile-pink',
     icon: learnIcon,
+    dialogSize: 'medium',
+    contentKey: 'learn',
   },
   {
     name: 'My Feedback',
     subtitle: 'Share your thoughts',
-    path: '/my-feedback',
     colorClass: 'tile-magenta',
     icon: myFeedbackIcon,
+    dialogSize: 'small',
+    contentKey: 'myFeedback',
   },
   {
     name: 'Mirroring',
     subtitle: 'Search your Internet',
-    path: '/mirroring',
     colorClass: 'tile-slate',
     icon: mirroringIcon,
+    dialogSize: 'medium',
+    contentKey: 'mirroring',
   },
   {
     name: 'Bluetooth',
     subtitle: 'Pair devices',
-    path: '/bluetooth',
     colorClass: 'tile-indigo',
     icon: bluetoothIcon,
+    dialogSize: 'small',
+    contentKey: 'bluetooth',
   },
 ];
 
-function Dashboard() {
+const appContentMap = {
+  tvMovies: TvMoviesApp,
+  webBrowser: WebBrowserApp,
+  videoCall: VideoCallApp,
+  orderFood: OrderFoodApp,
+  mySchedule: MyScheduleApp,
+  myHealth: MyHealthApp,
+  billingEnquiry: BillingEnquiryApp,
+  hospitalInfo: HospitalInfoApp,
+  learn: LearnApp,
+  myFeedback: MyFeedbackApp,
+  mirroring: MirroringApp,
+  bluetooth: BluetoothApp,
+  tvb: DefaultAppView,
+  hoyTV: DefaultAppView,
+  viutv: DefaultAppView,
+  netflix: DefaultAppView,
+  disneyPlus: DefaultAppView,
+  hbo: DefaultAppView,
+};
+
+function Dashboard({ onOpenApp }) {
   const currentTime = '5:36 PM';
   const currentDate = 'Oct 24, 2023';
   const columnsPerPage = 5;
@@ -241,24 +295,34 @@ function Dashboard() {
               ? pagedApps.map((page, pageIndex) => (
                   <div className="tile-page" key={`page-${pageIndex}`} aria-label={`App page ${pageIndex + 1}`}>
                     {page.map((app) => (
-                      <Link key={app.name} to={app.path} className={`app-tile ${app.colorClass}`}>
+                      <button
+                        type="button"
+                        key={app.name}
+                        className={`app-tile ${app.colorClass}`}
+                        onClick={() => onOpenApp(app)}
+                      >
                         <span className="app-icon" aria-hidden="true">
                           {app.icon ? <img src={app.icon} alt="" className="app-icon-image" /> : null}
                         </span>
                         <span className="app-label">{app.name}</span>
                         <span className="app-subtitle">{app.subtitle}</span>
-                      </Link>
+                      </button>
                     ))}
                   </div>
                 ))
               : apps.map((app) => (
-                  <Link key={app.name} to={app.path} className={`app-tile ${app.colorClass}`}>
+                  <button
+                    type="button"
+                    key={app.name}
+                    className={`app-tile ${app.colorClass}`}
+                    onClick={() => onOpenApp(app)}
+                  >
                     <span className="app-icon" aria-hidden="true">
                       {app.icon ? <img src={app.icon} alt="" className="app-icon-image" /> : null}
                     </span>
                     <span className="app-label">{app.name}</span>
                     <span className="app-subtitle">{app.subtitle}</span>
-                  </Link>
+                  </button>
                 ))}
           </div>
         </section>
@@ -268,24 +332,74 @@ function Dashboard() {
 }
 
 export default function App() {
+  const [activeDialog, setActiveDialog] = useState(null);
+
+  const openApp = (app) => {
+    if (app.children && app.children.length > 0) {
+      setActiveDialog({ type: 'folder', app });
+      return;
+    }
+
+    setActiveDialog({ type: 'app', app });
+  };
+
+  const closeDialog = () => setActiveDialog(null);
+
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/tv-movies" element={<BlankPage />} />
-        <Route path="/order-food" element={<BlankPage />} />
-        <Route path="/video-call" element={<BlankPage />} />
-        <Route path="/my-health" element={<BlankPage />} />
-        <Route path="/room-controls" element={<BlankPage />} />
-        <Route path="/my-schedule" element={<BlankPage />} />
-        <Route path="/learn" element={<BlankPage />} />
-        <Route path="/hospital-info" element={<BlankPage />} />
-        <Route path="/billing-enquiry" element={<BlankPage />} />
-        <Route path="/web-browser" element={<BlankPage />} />
-        <Route path="/my-feedback" element={<BlankPage />} />
-        <Route path="/mirroring" element={<BlankPage />} />
-        <Route path="/bluetooth" element={<BlankPage />} />
-      </Routes>
+      <Dashboard onOpenApp={openApp} />
+
+      {activeDialog && activeDialog.type === 'folder' && (
+        <div className="dialog-backdrop" onClick={closeDialog}>
+          <div
+            className={`app-dialog dialog-${activeDialog.app.dialogSize || 'medium'} ${activeDialog.type === 'folder' ? 'dialog-folder' : ''}`}
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="dialog-header">
+              <div className="dialog-title-group">
+                <span className="dialog-dot" />
+                <h2>{activeDialog.app.name}</h2>
+              </div>
+              <button type="button" className="dialog-close" onClick={closeDialog} aria-label="Close dialog">
+                ×
+              </button>
+            </div>
+
+            <div className="folder-grid">
+              {activeDialog.app.children.map((child) => (
+                <button
+                  key={child.name}
+                  type="button"
+                  className={`folder-item ${child.colorClass || 'tile-indigo'}`}
+                  onClick={() => setActiveDialog({ type: 'app', app: child, parent: activeDialog.app })}
+                >
+                  <span className="folder-item-icon" aria-hidden="true">
+                    {child.shortLabel || child.name.slice(0, 2).toUpperCase()}
+                  </span>
+                  <span className="folder-item-label">{child.name}</span>
+                  <span className="folder-item-subtitle">{child.subtitle}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeDialog && activeDialog.type === 'app' && (() => {
+        const AppView = appContentMap[activeDialog.app.contentKey] || DefaultAppView;
+        return (
+          <div className="app-window-iframe" role="dialog" aria-modal="true">
+            <div className="app-window-header">
+              <button type="button" className="window-close" onClick={closeDialog} aria-label="Close app view">
+                ×
+              </button>
+            </div>
+            <AppView app={activeDialog.app} parent={activeDialog.parent} />
+          </div>
+        );
+      })()}
 
       <div className="rotate-overlay" role="dialog" aria-modal="true" aria-live="polite">
         <div className="rotate-card">
