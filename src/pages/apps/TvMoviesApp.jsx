@@ -40,6 +40,25 @@ const hkFreeChannels = [
 const TV_WHEEL_STEP = 52;
 const TV_SETTLE_DELAY_MS = 1000;
 
+const getWheelStep = (listElement) => {
+  if (!listElement) {
+    return TV_WHEEL_STEP;
+  }
+
+  const firstItem = listElement.querySelector('.tv-channel-item');
+  const measuredHeight = firstItem?.getBoundingClientRect().height;
+  if (measuredHeight && measuredHeight > 0) {
+    return measuredHeight;
+  }
+
+  const cssStep = Number.parseFloat(window.getComputedStyle(listElement).getPropertyValue('--tv-wheel-step'));
+  if (Number.isFinite(cssStep) && cssStep > 0) {
+    return cssStep;
+  }
+
+  return TV_WHEEL_STEP;
+};
+
 const screenByContentKey = {
   mytvsuper: mytvsuperScreen,
   hoyTV: hoyScreen,
@@ -90,7 +109,8 @@ export default function TvMoviesApp({ app, parent }) {
 
   if (app.contentKey === 'tv') {
     const handleListScroll = (event) => {
-      const nextIndex = Math.floor((event.currentTarget.scrollTop + TV_WHEEL_STEP / 2) / TV_WHEEL_STEP);
+      const step = getWheelStep(event.currentTarget);
+      const nextIndex = Math.floor((event.currentTarget.scrollTop + step / 2) / step);
       const clampedIndex = Math.max(0, Math.min(hkFreeChannels.length - 1, nextIndex));
       setFocusedIndex(clampedIndex);
     };
@@ -98,8 +118,9 @@ export default function TvMoviesApp({ app, parent }) {
     const handleChannelClick = (index) => {
       const list = channelListRef.current;
       if (list) {
+        const step = getWheelStep(list);
         list.scrollTo({
-          top: index * TV_WHEEL_STEP,
+          top: index * step,
           behavior: 'smooth',
         });
       }
