@@ -26,14 +26,22 @@ import myFeedbackIcon from './pages/icon/my-feedback.svg';
 import mirroringIcon from './pages/icon/mirroring.svg';
 import bluetoothIcon from './pages/icon/bluetooth.svg';
 import hkbhLogo from './pages/resource/hkbh_logo.png';
+import tvIcon from './pages/resource/appIcon/tv.webp';
+import myTvSuperIcon from './pages/resource/appIcon/mytvsuper.webp';
+import hoyTvIcon from './pages/resource/appIcon/hoy.webp';
+import viuTvIcon from './pages/resource/appIcon/viu.webp';
+import netflixIcon from './pages/resource/appIcon/netflix.webp';
+import disneyIcon from './pages/resource/appIcon/disney.webp';
+import hboIcon from './pages/resource/appIcon/hbo.webp';
 
 const tvMoviesApps = [
-  { name: 'TVB', subtitle: 'Live & catch-up', shortLabel: 'TVB', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'tvb' },
-  { name: 'Hoy TV', subtitle: 'Shows & movies', shortLabel: 'HOY', colorClass: 'tile-cyan', dialogSize: 'medium', contentKey: 'hoyTV' },
-  { name: 'ViuTV', subtitle: 'Series & news', shortLabel: 'Viu', colorClass: 'tile-pink', dialogSize: 'medium', contentKey: 'viutv' },
-  { name: 'Netflix', subtitle: 'Premium streaming', shortLabel: 'N', colorClass: 'tile-red', dialogSize: 'large', contentKey: 'netflix' },
-  { name: 'Disney+', subtitle: 'Family favorites', shortLabel: 'D+', colorClass: 'tile-indigo', dialogSize: 'large', contentKey: 'disneyPlus' },
-  { name: 'HBO', subtitle: 'Award-winning', shortLabel: 'HBO', colorClass: 'tile-purple', dialogSize: 'medium', contentKey: 'hbo' },
+  { name: 'TV', subtitle: 'Live channels', shortLabel: 'TV', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'tv', icon: tvIcon },
+  { name: 'myTV SUPER', subtitle: 'Live & catch-up', shortLabel: 'myTV', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'mytvsuper', icon: myTvSuperIcon },
+  { name: 'Hoy TV', subtitle: 'Shows & movies', shortLabel: 'HOY', colorClass: 'tile-cyan', dialogSize: 'medium', contentKey: 'hoyTV', icon: hoyTvIcon },
+  { name: 'ViuTV', subtitle: 'Series & news', shortLabel: 'Viu', colorClass: 'tile-pink', dialogSize: 'medium', contentKey: 'viutv', icon: viuTvIcon },
+  { name: 'Netflix', subtitle: 'Premium streaming', shortLabel: 'N', colorClass: 'tile-red', dialogSize: 'large', contentKey: 'netflix', icon: netflixIcon },
+  { name: 'Disney+', subtitle: 'Family favorites', shortLabel: 'D+', colorClass: 'tile-indigo', dialogSize: 'large', contentKey: 'disneyPlus', icon: disneyIcon },
+  { name: 'HBO', subtitle: 'Award-winning', shortLabel: 'HBO', colorClass: 'tile-purple', dialogSize: 'medium', contentKey: 'hbo', icon: hboIcon },
 ];
 
 const apps = [
@@ -149,12 +157,13 @@ const appContentMap = {
   myFeedback: MyFeedbackApp,
   mirroring: MirroringApp,
   bluetooth: BluetoothApp,
-  tvb: DefaultAppView,
-  hoyTV: DefaultAppView,
-  viutv: DefaultAppView,
-  netflix: DefaultAppView,
-  disneyPlus: DefaultAppView,
-  hbo: DefaultAppView,
+  tv: TvMoviesApp,
+  mytvsuper: TvMoviesApp,
+  hoyTV: TvMoviesApp,
+  viutv: TvMoviesApp,
+  netflix: TvMoviesApp,
+  disneyPlus: TvMoviesApp,
+  hbo: TvMoviesApp,
 };
 
 function Dashboard({ onOpenApp }) {
@@ -376,10 +385,9 @@ export default function App() {
                   onClick={() => setActiveDialog({ type: 'app', app: child, parent: activeDialog.app })}
                 >
                   <span className="folder-item-icon" aria-hidden="true">
-                    {child.shortLabel || child.name.slice(0, 2).toUpperCase()}
+                    {child.icon ? <img src={child.icon} alt="" className="folder-item-icon-image" /> : (child.shortLabel || child.name.slice(0, 2).toUpperCase())}
                   </span>
                   <span className="folder-item-label">{child.name}</span>
-                  <span className="folder-item-subtitle">{child.subtitle}</span>
                 </button>
               ))}
             </div>
