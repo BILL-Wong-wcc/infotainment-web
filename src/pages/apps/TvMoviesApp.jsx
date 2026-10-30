@@ -72,9 +72,9 @@ export default function TvMoviesApp({ app, parent }) {
       return undefined;
     }
 
-    list.scrollTop = focusedIndex * TV_WHEEL_STEP;
+    list.scrollTop = 0;
     return undefined;
-  }, [app.contentKey, focusedIndex]);
+  }, [app.contentKey]);
 
   useEffect(() => {
     if (app.contentKey !== 'tv') {
@@ -90,7 +90,7 @@ export default function TvMoviesApp({ app, parent }) {
 
   if (app.contentKey === 'tv') {
     const handleListScroll = (event) => {
-      const nextIndex = Math.round(event.currentTarget.scrollTop / TV_WHEEL_STEP);
+      const nextIndex = Math.floor((event.currentTarget.scrollTop + TV_WHEEL_STEP / 2) / TV_WHEEL_STEP);
       const clampedIndex = Math.max(0, Math.min(hkFreeChannels.length - 1, nextIndex));
       setFocusedIndex(clampedIndex);
     };

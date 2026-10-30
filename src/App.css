@@ -818,14 +818,15 @@ body {
 
 .tv-channel-list {
   --tv-wheel-step: 52px;
+  --tv-wheel-viewport: clamp(220px, 46vh, 360px);
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0;
   overflow-y: auto;
   min-height: 0;
-  height: 100%;
-  padding-top: calc(50% - (var(--tv-wheel-step) / 2));
-  padding-bottom: calc(50% - (var(--tv-wheel-step) / 2));
+  height: var(--tv-wheel-viewport);
+  padding-top: calc((var(--tv-wheel-viewport) - var(--tv-wheel-step)) / 2);
+  padding-bottom: calc((var(--tv-wheel-viewport) - var(--tv-wheel-step)) / 2);
   padding-right: 2px;
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
@@ -843,7 +844,7 @@ body {
   color: rgba(255, 255, 255, 0.92);
   text-align: left;
   padding: 9px 10px;
-  min-height: 46px;
+  min-height: var(--tv-wheel-step);
   scroll-snap-align: center;
   font-size: 0.82rem;
   line-height: 1.2;
@@ -917,7 +918,7 @@ body {
   }
 
   .folder-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .webview-panel {
@@ -925,11 +926,31 @@ body {
   }
 
   .tv-guide-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(148px, 205px) minmax(0, 1fr);
+    gap: 10px;
+    padding: 8px;
   }
 
   .tv-channel-sidebar {
-    max-height: 42%;
+    padding: 8px;
+  }
+
+  .tv-sidebar-kicker {
+    margin: 2px 2px 8px;
+    font-size: 0.62rem;
+  }
+
+  .tv-channel-list {
+    --tv-wheel-step: 42px;
+    --tv-wheel-viewport: clamp(150px, 42vh, 220px);
+    width: 100%;
+    gap: 0;
+  }
+
+  .tv-channel-item {
+    font-size: 0.72rem;
+    padding: 7px 8px;
+    border-radius: 8px;
   }
 }
 
@@ -949,7 +970,7 @@ body {
   }
 
   .folder-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
     padding: 14px;
   }
