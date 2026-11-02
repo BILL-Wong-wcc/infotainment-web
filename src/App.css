@@ -787,6 +787,74 @@ body {
   background: linear-gradient(135deg, rgba(79, 141, 240, 0.22), rgba(172, 120, 255, 0.18));
 }
 
+.web-browser-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+.web-browser-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 42px;
+}
+
+.web-browser-home-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.web-browser-url-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.24);
+  color: #e7f0ff;
+  font-size: 0.82rem;
+  padding: 7px 9px;
+  outline: none;
+}
+
+.web-browser-url-input:focus {
+  border-color: rgba(121, 180, 255, 0.85);
+  box-shadow: 0 0 0 2px rgba(121, 180, 255, 0.2);
+}
+
+.web-browser-go-btn {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(121, 180, 255, 0.22);
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 7px 11px;
+  cursor: pointer;
+}
+
+.web-browser-frame-wrap {
+  flex: 1;
+  min-height: 0;
+  display: block;
+}
+
+.web-browser-iframe {
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: #ffffff;
+}
+
 .tv-guide-layout {
   display: grid;
   grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
