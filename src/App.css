@@ -5,7 +5,7 @@
   --text-subtle: #6e7da0;
   --tile-text: #ffffff;
   --border-soft: #dbe1ec;
-  --topbar-height: 12.5vh;
+  --topbar-height: 16vh;
 }
 
 * {
@@ -64,8 +64,8 @@ body {
   border-radius: clamp(8px, calc(var(--topbar-height) * 0.1), 12px);
   background: #f8f9fc;
   border: 1px solid #eef2f7;
-  min-height: 0;
-  max-height: calc(var(--topbar-height) * 0.76);
+  height: calc(var(--topbar-height) * 0.76);
+  width: max-content;
 }
 
 .patient-card {
@@ -87,7 +87,10 @@ body {
   display: grid;
   place-items: center;
   font-size: clamp(0.8rem, calc(var(--topbar-height) * 0.1), 1.1rem);
-  background: #e7edf8;
+  border-radius: 50%;
+  border: clamp(1px, calc(var(--topbar-height) * 0.03), 3px) solid #ffffff;
+  box-shadow: 0 0 0 1px #dbe5f5;
+  background: linear-gradient(150deg, #fff347, #16c01e);
 }
 
 .info-title {
@@ -113,11 +116,15 @@ body {
   object-fit: contain;
 }
 
+.ward-card {
+  background: #f1fff2;
+}
+
 .info-subtitle {
   margin: clamp(1px, calc(var(--topbar-height) * 0.02), 3px) 0 0;
   font-size: clamp(0.6rem, calc(var(--topbar-height) * 0.1), 0.9rem);
   font-weight: 600;
-  color: #5f6f94;
+  color: #1f4a89;
 }
 
 .care-team {
@@ -170,22 +177,17 @@ body {
   align-items: center;
 }
 
-.status-pill {
-  width: clamp(28px, calc(var(--topbar-height) * 0.42), 48px);
-  height: clamp(20px, calc(var(--topbar-height) * 0.28), 30px);
-  border-radius: clamp(8px, calc(var(--topbar-height) * 0.1), 10px);
-  background: #f7f8fb;
-  border: 1px solid #e4e9f3;
+.status-weather {
   display: grid;
   place-items: center;
   flex-shrink: 0;
 }
 
-.status-dot {
-  width: clamp(5px, calc(var(--topbar-height) * 0.08), 8px);
-  height: clamp(5px, calc(var(--topbar-height) * 0.08), 8px);
-  border-radius: 50%;
-  background: #ff3a3a;
+.status-weather .weather {
+  display: block;
+  height: clamp(2.2rem, calc(var(--topbar-height) * 0.64), 3.2rem);
+  width: auto;
+  object-fit: contain;
 }
 
 .clock-card {
@@ -209,6 +211,23 @@ body {
   font-size: clamp(0.6rem, calc(var(--topbar-height) * 0.09), 0.86rem);
   font-weight: 600;
   color: #6b7ca1;
+}
+
+.language-card {
+  padding: 5px 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-self: end;
+}
+
+.language-image {
+  width: clamp(1.2rem, calc(var(--topbar-height) * 0.24), 1.8rem);
+  height: auto;
+  object-fit: contain;
+}
+
+.language-text {
+  padding: 0 0 0 6px;
 }
 
 .app-shell {
@@ -1284,10 +1303,6 @@ body {
   .topbar-right {
     width: 100%;
     justify-content: center;
-  }
-
-  .status-pill {
-    display: none;
   }
 
 }

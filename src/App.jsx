@@ -27,7 +27,9 @@ import myFeedbackIcon from './pages/icon/my-feedback.svg';
 import mirroringIcon from './pages/icon/mirroring.svg';
 import bluetoothIcon from './pages/icon/bluetooth.svg';
 import themesIcon from './pages/icon/themes.svg';
+import languageIcon from './pages/icon/language.svg';
 import hkbhLogo from './pages/resource/hkbh_logo.png';
+import weather from './pages/resource/weather.png';
 import tvIcon from './pages/resource/appIcon/tv.webp';
 import myTvSuperIcon from './pages/resource/appIcon/mytvsuper.webp';
 import hoyTvIcon from './pages/resource/appIcon/hoy.webp';
@@ -193,8 +195,8 @@ const DASHBOARD_THEMES = {
 };
 
 function Dashboard({ onOpenApp, dashboardTheme }) {
-  const currentTime = '5:36 PM';
-  const currentDate = 'Oct 24, 2023';
+  const currentTime = '2:50 PM';
+  const currentDate = '30 SEP, 2026';
   const columnsPerPage = 5;
   const [isMobilePaged, setIsMobilePaged] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(3);
@@ -567,10 +569,16 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
           </article>
 
           <article className="info-card patient-card">
-            <div className="avatar avatar-patient" aria-hidden="true">👨🏽</div>
+            <div className="avatar avatar-patient" aria-hidden="true" />
             <div>
               <p className="info-title">John Doe</p>
               <p className="info-subtitle">ID: #98245</p>
+            </div>
+          </article>
+
+          <article className="info-card ward-card">
+            <div>
+              <p className="info-title">A-904</p>
             </div>
           </article>
         </div>
@@ -594,12 +602,21 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
         </div>
 
         <div className="topbar-group topbar-right">
-          <span className="status-pill" aria-hidden="true">
-            <span className="status-dot" />
+          <span className="status-weather" aria-hidden="true">
+            <div>
+              <img src={weather} alt="weather" className="weather" />
+            </div>
+            <div>
+              <p className="info-title">30ºC</p>
+            </div>
           </span>
-          <div className="clock-card" aria-label="Current time and date">
+          <div className="clock-card" aria-label="Current time, date and language">
             <p className="clock-time">{currentTime}</p>
             <p className="clock-date">{currentDate}</p>
+            <div className = "language-card" aria-label="Language">
+              <img src={languageIcon} alt="Language" className="language-image" />
+              <div className="language-text">繁/简</div>
+            </div>
           </div>
         </div>
       </header>
