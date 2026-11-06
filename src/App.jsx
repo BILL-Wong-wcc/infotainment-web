@@ -13,6 +13,7 @@ import LearnApp from './pages/apps/LearnApp';
 import MyFeedbackApp from './pages/apps/MyFeedbackApp';
 import MirroringApp from './pages/apps/MirroringApp';
 import BluetoothApp from './pages/apps/BluetoothApp';
+import WifiInfoApp from './pages/apps/WifiInfoApp';
 import ThemesApp from './pages/apps/ThemesApp';
 import tvMoviesIcon from './pages/icon/tv-movies.svg';
 import webIcon from './pages/icon/web-browser.svg';
@@ -26,6 +27,7 @@ import learnIcon from './pages/icon/learn.svg';
 import myFeedbackIcon from './pages/icon/my-feedback.svg';
 import mirroringIcon from './pages/icon/mirroring.svg';
 import bluetoothIcon from './pages/icon/bluetooth.svg';
+import wifiIcon from './pages/icon/wifi.svg';
 import themesIcon from './pages/icon/themes.svg';
 import languageIcon from './pages/icon/language.svg';
 import hkbhLogo from './pages/resource/hkbh_logo.png';
@@ -154,6 +156,14 @@ const apps = [
     contentKey: 'bluetooth',
   },
   {
+    name: 'Wifi info',
+    subtitle: 'Connection details',
+    colorClass: 'tile-red',
+    icon: wifiIcon,
+    dialogSize: 'small',
+    contentKey: 'wifiInfo',
+  },
+  {
     name: 'Themes',
     subtitle: 'Select style',
     colorClass: 'tile-gray',
@@ -177,6 +187,7 @@ const appContentMap = {
   myFeedback: MyFeedbackApp,
   mirroring: MirroringApp,
   bluetooth: BluetoothApp,
+  wifiInfo: WifiInfoApp,
   themes: ThemesApp,
   themeClassic: ThemesApp,
   themeHorizontal: ThemesApp,
