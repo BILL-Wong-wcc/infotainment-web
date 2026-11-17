@@ -1,7 +1,9 @@
 import wifiLogo from '../icon/wifi.svg';
 import bhWifiQr from '../resource/bhWifi.svg';
+import { useTranslation } from 'react-i18next';
 
 export default function WifiInfoApp({ app }) {
+  const { t } = useTranslation();
   return (
     <div className="app-content-panel wifi-info-panel">
       <div className="wifi-info-card">
@@ -12,15 +14,15 @@ export default function WifiInfoApp({ app }) {
 
         <div className="wifi-info-body">
           <div className="wifi-info-login-block">
-            <p className="wifi-info-section-title">LOGIN</p>
+            <p className="wifi-info-section-title">{t('wifi.login')}</p>
 
             <div className="wifi-info-field">
-              <p className="wifi-info-field-label">NETWORK</p>
+              <p className="wifi-info-field-label">{t('wifi.network')}</p>
               <p className="wifi-info-field-value">HKBH_Free_Visitor_Secured</p>
             </div>
 
             <div className="wifi-info-field">
-              <p className="wifi-info-field-label">PASSWORD</p>
+              <p className="wifi-info-field-label">{t('wifi.password')}</p>
               <p className="wifi-info-field-value">bhwifipwd</p>
             </div>
           </div>
@@ -28,7 +30,7 @@ export default function WifiInfoApp({ app }) {
           <div className="wifi-info-divider" aria-hidden="true" />
 
           <div className="wifi-info-qr-block">
-            <p className="wifi-info-section-title">SCAN CODE</p>
+            <p className="wifi-info-section-title">{t('wifi.scanCode')}</p>
             <img src={bhWifiQr} alt="Wifi QR code" className="wifi-info-qr" />
           </div>
         </div>

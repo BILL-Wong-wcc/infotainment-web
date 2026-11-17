@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function WebBrowserApp({ app }) {
-  const homeUrl = 'https://www.hkbh.org.hk/';
+  const homeUrl = 'https://bizapp01.hkbh.org.hk/HKBHIntranet/Home/Index';
   const [urlInput, setUrlInput] = useState(homeUrl);
   const [currentUrl, setCurrentUrl] = useState(homeUrl);
 

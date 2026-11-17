@@ -1,5 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import './App.css';
+import './i18n/i18n';
+import { useTranslation } from 'react-i18next';
+import { formatLocalDateTime } from './utils/dateFormatter';
 import DefaultAppView from './pages/apps/DefaultAppView';
 import TvMoviesApp from './pages/apps/TvMoviesApp';
 import WebBrowserApp from './pages/apps/WebBrowserApp';
@@ -43,24 +46,23 @@ import classicThemeIcon from './pages/resource/appIcon/style-1-classic.svg';
 import horizontalThemeIcon from './pages/resource/appIcon/style-2-horizontal-slide.svg';
 
 const tvMoviesApps = [
-  { name: 'TV', subtitle: 'Live channels', shortLabel: 'TV', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'tv', icon: tvIcon },
-  { name: 'myTV SUPER', subtitle: 'Live & catch-up', shortLabel: 'myTV', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'mytvsuper', icon: myTvSuperIcon },
-  { name: 'Hoy TV', subtitle: 'Shows & movies', shortLabel: 'HOY', colorClass: 'tile-cyan', dialogSize: 'medium', contentKey: 'hoyTV', icon: hoyTvIcon },
-  { name: 'ViuTV', subtitle: 'Series & news', shortLabel: 'Viu', colorClass: 'tile-pink', dialogSize: 'medium', contentKey: 'viutv', icon: viuTvIcon },
-  { name: 'Netflix', subtitle: 'Premium streaming', shortLabel: 'N', colorClass: 'tile-red', dialogSize: 'large', contentKey: 'netflix', icon: netflixIcon },
-  { name: 'Disney+', subtitle: 'Family favorites', shortLabel: 'D+', colorClass: 'tile-indigo', dialogSize: 'large', contentKey: 'disneyPlus', icon: disneyIcon },
-  { name: 'HBO', subtitle: 'Award-winning', shortLabel: 'HBO', colorClass: 'tile-purple', dialogSize: 'medium', contentKey: 'hbo', icon: hboIcon },
+  { shortLabel: 'TV', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'tv', icon: tvIcon },
+  { shortLabel: 'myTV', colorClass: 'tile-teal', dialogSize: 'medium', contentKey: 'mytvsuper', icon: myTvSuperIcon },
+  { shortLabel: 'HOY', colorClass: 'tile-cyan', dialogSize: 'medium', contentKey: 'hoyTV', icon: hoyTvIcon },
+  { shortLabel: 'Viu', colorClass: 'tile-pink', dialogSize: 'medium', contentKey: 'viutv', icon: viuTvIcon },
+  { shortLabel: 'N', colorClass: 'tile-red', dialogSize: 'large', contentKey: 'netflix', icon: netflixIcon },
+  { shortLabel: 'DPlus', colorClass: 'tile-indigo', dialogSize: 'large', contentKey: 'disneyPlus', icon: disneyIcon },
+  { shortLabel: 'HBO', colorClass: 'tile-purple', dialogSize: 'medium', contentKey: 'hbo', icon: hboIcon },
 ];
 
 const themesApps = [
-  { name: 'Classic', subtitle: 'Standard grid layout', shortLabel: 'C1', colorClass: 'tile-gray', dialogSize: 'small', contentKey: 'themeClassic', icon: classicThemeIcon },
-  { name: 'Horizontal-slide', subtitle: 'Swipe-focused layout', shortLabel: 'HS', colorClass: 'tile-gray', dialogSize: 'small', contentKey: 'themeHorizontal', icon: horizontalThemeIcon },
+  { shortLabel: 'C1', colorClass: 'tile-gray', dialogSize: 'small', contentKey: 'themeClassic', icon: classicThemeIcon },
+  { shortLabel: 'HS', colorClass: 'tile-gray', dialogSize: 'small', contentKey: 'themeHorizontal', icon: horizontalThemeIcon },
 ];
 
 const apps = [
   {
-    name: 'TV & Movies',
-    subtitle: 'Watch shows',
+    key: 'tvMovies',
     colorClass: 'tile-blue',
     icon: tvMoviesIcon,
     dialogSize: 'wide',
@@ -68,104 +70,91 @@ const apps = [
     children: tvMoviesApps,
   },
   {
-    name: 'Web Browser',
-    subtitle: 'Search the internet',
+    key: 'webBrowser',
     colorClass: 'tile-orange',
     icon: webIcon,
     dialogSize: 'large',
     contentKey: 'webBrowser',
   },
   {
-    name: 'Video Call',
-    subtitle: 'Call Family',
+    key: 'videoCall',
     colorClass: 'tile-purple',
     icon: videoCallIcon,
     dialogSize: 'medium',
     contentKey: 'videoCall',
   },
   {
-    name: 'Order Food',
-    subtitle: 'Lunch at 12:30 PM',
+    key: 'orderFood',
     colorClass: 'tile-green',
     icon: orderFoodIcon,
     dialogSize: 'small',
     contentKey: 'orderFood',
   },
   {
-    name: 'My Schedule',
-    subtitle: '2 activities today',
+    key: 'mySchedule',
     colorClass: 'tile-teal',
     icon: myScheduleIcon,
     dialogSize: 'small',
     contentKey: 'mySchedule',
   },
   {
-    name: 'My Health',
-    subtitle: 'Records & Meds',
+    key: 'myHealth',
     colorClass: 'tile-lime',
     icon: myHealthIcon,
     dialogSize: 'medium',
     contentKey: 'myHealth',
   },
   {
-    name: 'Billing Enquiry',
-    subtitle: 'View charges & pay',
+    key: 'billingEnquiry',
     colorClass: 'tile-amber',
     icon: billingEnquiryIcon,
     dialogSize: 'medium',
     contentKey: 'billingEnquiry',
   },
   {
-    name: 'Hospital Info',
-    subtitle: 'Services & Billing',
+    key: 'hospitalInfo',
     colorClass: 'tile-cyan',
     icon: hospitalInfoIcon,
     dialogSize: 'small',
     contentKey: 'hospitalInfo',
   },
   {
-    name: 'Learn',
-    subtitle: 'Health information',
+    key: 'learn',
     colorClass: 'tile-pink',
     icon: learnIcon,
     dialogSize: 'medium',
     contentKey: 'learn',
   },
   {
-    name: 'My Feedback',
-    subtitle: 'Share your thoughts',
+    key: 'myFeedback',
     colorClass: 'tile-magenta',
     icon: myFeedbackIcon,
     dialogSize: 'small',
     contentKey: 'myFeedback',
   },
   {
-    name: 'Mirroring',
-    subtitle: 'Search your Internet',
+    key: 'mirroring',
     colorClass: 'tile-slate',
     icon: mirroringIcon,
     dialogSize: 'medium',
     contentKey: 'mirroring',
   },
   {
-    name: 'Bluetooth',
-    subtitle: 'Pair devices',
+    key: 'bluetooth',
     colorClass: 'tile-indigo',
     icon: bluetoothIcon,
     dialogSize: 'small',
     contentKey: 'bluetooth',
   },
   {
-    name: 'Wifi info',
-    subtitle: 'Connection details',
+    key: 'wifiInfo',
     colorClass: 'tile-red',
     icon: wifiIcon,
     dialogSize: 'small',
     contentKey: 'wifiInfo',
   },
   {
-    name: 'Themes',
-    subtitle: 'Select style',
+    key: 'themes',
     colorClass: 'tile-gray',
     icon: themesIcon,
     dialogSize: 'medium',
@@ -206,8 +195,7 @@ const DASHBOARD_THEMES = {
 };
 
 function Dashboard({ onOpenApp, dashboardTheme }) {
-  const currentTime = '2:50 PM';
-  const currentDate = '30 SEP, 2026';
+  const { t, i18n } = useTranslation();
   const columnsPerPage = 5;
   const [isMobilePaged, setIsMobilePaged] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(3);
@@ -225,6 +213,16 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
   const wheelDebounceRef = useRef(null);
   const [isWheelDragging, setIsWheelDragging] = useState(false);
   const [isWheelScrolling, setIsWheelScrolling] = useState(false);
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng); // 切換語言
+  };
+
+  const visibleLanguageOptions = [
+    { code: 'zh-TW', label: '繁' },
+    { code: 'zh-CN', label: '简' },
+    { code: 'en', label: 'EN' },
+  ].filter((option) => option.code !== i18n.language);
 
   useEffect(() => {
     const mobileQuery = window.matchMedia('(max-width: 1024px) and (hover: none) and (pointer: coarse)');
@@ -598,7 +596,7 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
           <div className="staff-chip">
             <div className="avatar avatar-staff avatar-doctor" aria-hidden="true" />
             <div>
-              <p className="staff-role">DOCTOR</p>
+              <p className="staff-role">{t('dashboard.doctor')}</p>
               <p className="staff-name">Dr. Smith</p>
             </div>
           </div>
@@ -606,7 +604,7 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
           <div className="staff-chip">
             <div className="avatar avatar-staff avatar-nurse" aria-hidden="true" />
             <div>
-              <p className="staff-role">NURSE</p>
+              <p className="staff-role">{t('dashboard.nurse')}</p>
               <p className="staff-name">Sarah</p>
             </div>
           </div>
@@ -622,11 +620,23 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
             </div>
           </span>
           <div className="clock-card" aria-label="Current time, date and language">
-            <p className="clock-time">{currentTime}</p>
-            <p className="clock-date">{currentDate}</p>
-            <div className = "language-card" aria-label="Language">
+            <p className="clock-time">{formatLocalDateTime('time', i18n.language)}</p>
+            <p className="clock-date">{formatLocalDateTime('date', i18n.language)}</p>
+            <div className="language-card" aria-label="Language">
               <img src={languageIcon} alt="Language" className="language-image" />
-              <div className="language-text">繁/简</div>
+              {visibleLanguageOptions.map((option, index) => (
+                <span className="language-option" key={option.code}>
+                  <button
+                    type="button"
+                    className="language-text-button"
+                    onClick={() => changeLanguage(option.code)}
+                    aria-label={`Change language to ${option.code}`}
+                  >
+                    {option.label}
+                  </button>
+                  {index < visibleLanguageOptions.length - 1 ? <span className="language-separator">/</span> : null}
+                </span>
+              ))}
             </div>
           </div>
         </div>
@@ -635,7 +645,7 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
       <main className="app-shell" ref={appShellRef}>
         <section className="dashboard" aria-labelledby="services-heading">
           <header className="dashboard-header" ref={dashboardHeaderRef}>
-            <p>Tap any tile below to access services.</p>
+            <p>{t('dashboard.hint')}</p>
           </header>
 
           {dashboardTheme === DASHBOARD_THEMES.horizontal ? (
@@ -658,7 +668,7 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
                     return (
                   <button
                     type="button"
-                    key={`${app.name}-${index}`}
+                    key={`${app.key}-${index}`}
                     className={`app-tile wheel-tile ${app.colorClass} ${index === activeWheelIndex ? 'is-active' : ''}`}
                     style={{ zIndex: zLayer }}
                     onClick={(event) => onWheelTileClick(event, apps[index % apps.length])}
@@ -666,8 +676,8 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
                     <span className="app-icon" aria-hidden="true">
                       {app.icon ? <img src={app.icon} alt="" className="app-icon-image" /> : null}
                     </span>
-                    <span className="app-label">{app.name}</span>
-                    <span className="app-subtitle">{app.subtitle}</span>
+                    <span className="app-label">{t(`dashboard.${app.key}.name`)}</span>
+                    <span className="app-subtitle">{t(`dashboard.${app.key}.subtitle`)}</span>
                   </button>
                     );
                   })()
@@ -682,15 +692,15 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
                       {page.map((app) => (
                         <button
                           type="button"
-                          key={app.name}
+                          key={app.key}
                           className={`app-tile ${app.colorClass}`}
                           onClick={() => onOpenApp(app)}
                         >
                           <span className="app-icon" aria-hidden="true">
                             {app.icon ? <img src={app.icon} alt="" className="app-icon-image" /> : null}
                           </span>
-                          <span className="app-label">{app.name}</span>
-                          <span className="app-subtitle">{app.subtitle}</span>
+                          <span className="app-label">{t(`dashboard.${app.key}.name`)}</span>
+                          <span className="app-subtitle">{t(`dashboard.${app.key}.subtitle`)}</span>
                         </button>
                       ))}
                     </div>
@@ -698,15 +708,15 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
                 : apps.map((app) => (
                     <button
                       type="button"
-                      key={app.name}
+                      key={app.key}
                       className={`app-tile ${app.colorClass}`}
                       onClick={() => onOpenApp(app)}
                     >
                       <span className="app-icon" aria-hidden="true">
                         {app.icon ? <img src={app.icon} alt="" className="app-icon-image" /> : null}
                       </span>
-                      <span className="app-label">{app.name}</span>
-                      <span className="app-subtitle">{app.subtitle}</span>
+                      <span className="app-label">{t(`dashboard.${app.key}.name`)}</span>
+                      <span className="app-subtitle">{t(`dashboard.${app.key}.subtitle`)}</span>
                     </button>
                   ))}
             </div>
@@ -718,6 +728,7 @@ function Dashboard({ onOpenApp, dashboardTheme }) {
 }
 
 export default function App() {
+  const { t } = useTranslation();
   const [activeDialog, setActiveDialog] = useState(null);
   const [dashboardTheme, setDashboardTheme] = useState(DASHBOARD_THEMES.classic);
 
@@ -794,15 +805,15 @@ export default function App() {
             <div className="folder-grid">
               {activeDialog.app.children.map((child) => (
                 <button
-                  key={child.name}
+                  key={child.shortLabel}
                   type="button"
                   className={`folder-item ${child.colorClass || 'tile-indigo'}`}
                   onClick={() => openChildApp(child, activeDialog.app)}
                 >
                   <span className="folder-item-icon" aria-hidden="true">
-                    {child.icon ? <img src={child.icon} alt="" className={`folder-item-icon-image${activeDialog.app.contentKey === 'themes' ? ' folder-item-icon-image-white' : ''}`} /> : (child.shortLabel || child.name.slice(0, 2).toUpperCase())}
+                    {child.icon ? <img src={child.icon} alt="" className={`folder-item-icon-image${activeDialog.app.contentKey === 'themes' ? ' folder-item-icon-image-white' : ''}`} /> : (child.shortLabel)}
                   </span>
-                  <span className="folder-item-label">{child.name}</span>
+                  <span className="folder-item-label">{t(`dashboard.folder.${child.shortLabel}`)}</span>
                 </button>
               ))}
             </div>
@@ -826,7 +837,7 @@ export default function App() {
 
       <div className="rotate-overlay" role="dialog" aria-modal="true" aria-live="polite">
         <div className="rotate-card">
-          <p>Please rotate your phone and then refresh the page</p>
+          <p>{t('dashboard.rotateMessage')}</p>
         </div>
       </div>
     </>

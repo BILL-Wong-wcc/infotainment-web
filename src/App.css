@@ -218,6 +218,7 @@ body {
   display: flex;
   align-items: center;
   justify-self: end;
+  gap: 6px;
 }
 
 .language-image {
@@ -226,8 +227,31 @@ body {
   object-fit: contain;
 }
 
-.language-text {
-  padding: 0 0 0 6px;
+.language-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.language-text-button {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: #1f3155;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.language-text-button:hover,
+.language-text-button:focus-visible {
+  text-decoration: underline;
+}
+
+.language-separator {
+  color: #6b7ca1;
+  line-height: 1;
 }
 
 .app-shell {

@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import mytvsuperScreen from '../resource/appScreen/mytvsuperScreen.webp';
 import hoyScreen from '../resource/appScreen/hoyScreen.png';
 import viuScreen from '../resource/appScreen/viuScreen.png';
 import netflixScreen from '../resource/appScreen/netflixScreen.png';
 import disneyScreen from '../resource/appScreen/disneyScreen.png';
 import hboScreen from '../resource/appScreen/hboScreen.webp';
-import viuProgramScreen from '../resource/appScreen/program99.jpg';
 import program96 from '../resource/appScreen/program96.jpg';
+import program99 from '../resource/appScreen/program99.jpg';
 import program85 from '../resource/appScreen/program85.jpg';
+import program84 from '../resource/appScreen/program84.jpg';
 import program83 from '../resource/appScreen/program83.jpg';
 import program82 from '../resource/appScreen/program82.webp';
 import program81 from '../resource/appScreen/program81.jpg';
@@ -21,20 +23,20 @@ import program32 from '../resource/appScreen/program32.webp';
 import program31 from '../resource/appScreen/program31.png';
 
 const hkFreeChannels = [
-  { number: 31, name: 'RTHK 31', screen: program31 },
-  { number: 32, name: 'RTHK 32', screen: program32 },
-  { number: 33, name: 'RTHK 33', screen: program33 },
-  { number: 34, name: 'RTHK 34', screen: program34 },
-  { number: 35, name: 'RTHK 35', screen: program35 },
-  { number: 76, name: 'HOY International Finance', screen: program76 },
-  { number: 77, name: 'HOY TV', screen: program77 },
-  { number: 78, name: 'HOY Info', screen: program78 },
-  { number: 81, name: 'TVB Jade', screen: program81 },
-  { number: 82, name: 'TVB Pearl', screen: program82 },
-  { number: 83, name: 'TVB Plus', screen: program83 },
-  { number: 85, name: 'TVB News', screen: program85 },
-  { number: 96, name: 'ViuTVsix', screen: program96 },
-  { number: 99, name: 'ViuTV', screen: viuProgramScreen },
+  { number: 31, name: 'rt31', screen: program31 },
+  { number: 32, name: 'rt32', screen: program32 },
+  { number: 33, name: 'rt33', screen: program33 },
+  { number: 34, name: 'rt34', screen: program34 },
+  { number: 35, name: 'rt35', screen: program35 },
+  { number: 76, name: 'hoyInter', screen: program76 },
+  { number: 77, name: 'hoyTv', screen: program77 },
+  { number: 78, name: 'hoyInfo', screen: program78 },
+  { number: 81, name: 'tvbJade', screen: program81 },
+  { number: 82, name: 'tvbPlus', screen: program82 },
+  { number: 83, name: 'tvbNews', screen: program83 },
+  { number: 84, name: 'tvbPearl', screen: program84 },
+  { number: 96, name: 'viuTVsix', screen: program96 },
+  { number: 99, name: 'viuTV', screen: program99 },
 ];
 
 const TV_WHEEL_STEP = 52;
@@ -72,6 +74,7 @@ export default function TvMoviesApp({ app, parent }) {
   const channelListRef = useRef(null);
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const { t, i18n } = useTranslation();
 
   const selectedChannel = useMemo(() => {
     if (selectedIndex === null) {
@@ -133,7 +136,7 @@ export default function TvMoviesApp({ app, parent }) {
     return (
       <div className="tv-guide-layout">
         <aside className="tv-channel-sidebar" aria-label="TV channels">
-          <p className="tv-sidebar-kicker">TV Channels</p>
+          <p className="tv-sidebar-kicker">{t('tv.channels')}</p>
           <div className="tv-channel-list" role="list" onScroll={handleListScroll} ref={channelListRef}>
             {hkFreeChannels.map((channel, index) => (
               <button
@@ -143,7 +146,7 @@ export default function TvMoviesApp({ app, parent }) {
                 role="listitem"
                 onClick={() => handleChannelClick(index)}
               >
-                {channel.number} {channel.name}
+                {channel.number} {t(`tv.${channel.name}`)}
               </button>
             ))}
           </div>
@@ -153,7 +156,7 @@ export default function TvMoviesApp({ app, parent }) {
           {isLoading ? (
             <div className="tv-preview-loading" aria-live="polite">
               <span className="tv-loading-spinner" aria-hidden="true" />
-              <span>Loading program...</span>
+              <span>{t('tv.loading')}</span>
             </div>
           ) : (
             <img

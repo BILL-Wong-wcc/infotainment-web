@@ -1,0 +1,99 @@
+{
+    "dashboard": {
+        "hint": "點擊以下方塊以訪問服務。",
+        "doctor": "醫生",
+        "nurse": "護士",
+        "tvMovies": {
+            "name": "電視與電影",
+            "subtitle": "觀看節目"
+        },
+        "webBrowser": {
+            "name": "網頁瀏覽器",
+            "subtitle": "搜尋網路"
+        },
+        "videoCall": {
+            "name": "視訊通話",
+            "subtitle": "與家人聯繫"
+        },
+        "orderFood": {
+            "name": "訂餐",
+            "subtitle": "12:30 午餐"
+        },
+        "mySchedule": {
+            "name": "我的行程",
+            "subtitle": "今天有 2 項活動"
+        },
+        "myHealth": {
+            "name": "我的健康",
+            "subtitle": "紀錄與藥物"
+        },
+        "billingEnquiry": {
+            "name": "帳單查詢",
+            "subtitle": "查看費用並付款"
+        },
+        "hospitalInfo": {
+            "name": "醫院資訊",
+            "subtitle": "服務與收費"
+        },
+        "learn": {
+            "name": "學習",
+            "subtitle": "健康資訊"
+        },
+        "myFeedback": {
+            "name": "我的回饋",
+            "subtitle": "分享您的想法"
+        },
+        "mirroring": {
+            "name": "螢幕鏡像",
+            "subtitle": "匹配您的手機螢幕"
+        },
+        "bluetooth": {
+            "name": "藍牙",
+            "subtitle": "配對裝置"
+        },
+        "wifiInfo": {
+            "name": "Wi-Fi 資訊",
+            "subtitle": "連線詳情"
+        },
+        "themes": {
+            "name": "主題",
+            "subtitle": "選擇風格"
+        },
+        "rotateMessage": "請旋轉您的手機，然後刷新頁面。",
+        "folder": {
+            "TV": "電視",
+            "myTV": "myTV SUPER",
+            "HOY": "Hoy TV",
+            "Viu": "ViuTV",
+            "N": "Netflix",
+            "DPlus": "Disney+",
+            "HBO": "HBO",
+            "C1": "經典",
+            "HS": "橫向滑動"
+        }
+    },
+    "tv": {
+        "channels": "電視頻道",
+        "rt31": "港台電視31",
+        "rt32": "港台電視32",
+        "rt33": "港台電視33",
+        "rt34": "港台電視34",
+        "rt35": "港台電視35",
+        "hoyInter": "HOY 76",
+        "hoyTv": "HOY 77",
+        "hoyInfo": "HOY 78",
+        "tvbJade": "TVB 翡翠台",
+        "tvbPlus": "TVB Plus",
+        "tvbNews": "TVB 無綫新聞台",
+        "tvbPearl": "TVB 明珠台",
+        "viuTVsix": "ViuTVsix",
+        "viuTV": "ViuTV",
+        "loading": "載入節目中..."
+    },
+    "wifi": {
+        "login": "登入",
+        "network": "網路",
+        "password": "密碼",
+        "scanCode": "掃描 QR 碼"
+    }
+}

@@ -1,0 +1,99 @@
+{
+    "dashboard": {
+        "hint": "Tap any tile below to access services.",
+        "doctor": "Doctor",
+        "nurse": "Nurse",
+        "tvMovies": {
+            "name": "TV & Movies",
+            "subtitle": "Watch shows"
+        },
+        "webBrowser": {
+            "name": "Web Browser",
+            "subtitle": "Search the internet"
+        },
+        "videoCall": {
+            "name": "Video Call",
+            "subtitle": "Connect with family"
+        },
+        "orderFood": {
+            "name": "Order Food",
+            "subtitle": "Lunch at 12:30 PM"
+        },
+        "mySchedule": {
+            "name": "My Schedule",
+            "subtitle": "2 activities today"
+        },
+        "myHealth": {
+            "name": "My Health",
+            "subtitle": "Records & Meds"
+        },
+        "billingEnquiry": {
+            "name": "Billing Enquiry",
+            "subtitle": "View charges & pay"
+        },
+        "hospitalInfo": {
+            "name": "Hospital Info",
+            "subtitle": "Services & Charges"
+        },
+        "learn": {
+            "name": "Learn",
+            "subtitle": "Health information"
+        },
+        "myFeedback": {
+            "name": "My Feedback",
+            "subtitle": "Share your thoughts"
+        },
+        "mirroring": {
+            "name": "Mirroring",
+            "subtitle": "Match your phone screen"
+        },
+        "bluetooth": {
+            "name": "Bluetooth",
+            "subtitle": "Pair devices"
+        },
+        "wifiInfo": {
+            "name": "Wifi info",
+            "subtitle": "Connection details"
+        },
+        "themes": {
+            "name": "Themes",
+            "subtitle": "Select style"
+        },
+        "rotateMessage": "Please rotate your phone and then refresh the page.",
+        "folder": {
+            "TV": "TV",
+            "myTV": "myTV SUPER",
+            "HOY": "Hoy TV",
+            "Viu": "ViuTV",
+            "N": "Netflix",
+            "DPlus": "Disney+",
+            "HBO": "HBO",
+            "C1": "Classic",
+            "HS": "Horizontal-slide"
+        }
+    },
+    "tv": {
+        "channels": "TV Channels",
+        "rt31": "RTHK 31",
+        "rt32": "RTHK 32",
+        "rt33": "RTHK 33",
+        "rt34": "RTHK 34",
+        "rt35": "RTHK 35",
+        "hoyInter": "HOY 76",
+        "hoyTv": "HOY 77",
+        "hoyInfo": "HOY 78",
+        "tvbJade": "TVB Jade",
+        "tvbPlus": "TVB Plus",
+        "tvbNews": "TVB News",
+        "tvbPearl": "TVB Pearl",
+        "viuTVsix": "ViuTVsix",
+        "viuTV": "ViuTV",
+        "loading": "Loading program..."
+    },
+    "wifi": {
+        "login": "Login",
+        "network": "Network",
+        "password": "Password",
+        "scanCode": "Scan Code"
+    }
+}
